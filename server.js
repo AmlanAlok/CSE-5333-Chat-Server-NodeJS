@@ -28,7 +28,7 @@ con.connect((err) => {
 
 server.listen(9000, () => {
     console.log('NodeJS server is running on port = 3000.');
-    saveChatToDB(2, 1, "NodeJS");
+    saveChatToDB(2, 1, "NodeJS-2");
 });
 
 function saveChatToDB(receiverUserId, senderUserId, message){

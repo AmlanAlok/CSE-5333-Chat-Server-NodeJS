@@ -25,10 +25,32 @@ con.connect((err) => {
         console.log('DB connection failed : ' + JSON.stringify(err));
 });
 
+io.on('connection', (socket) => {
+
+    console.log('-----------------------------------------------------------------------');
+    console.log('NodeJS server connection established.');
+    console.log("The number of connected sockets: "+socket.adapter.sids.size);
+    console.log('socket.id = '+socket.id);
+
+    socket.on('sendMsgFromSenderToReceiver', (message, senderUserId, receiverUserId) => {
+        console.log('Msg from sender to receiver = ' + message + ' , (senderUserId = '+ senderUserId+ ', receiverUserId = '+receiverUserId)
+        console.log('socket.id = '+socket.id);
+
+        socket.broadcast.emit('sendChatToReceiverFromSender', message, receiverUserId, senderUserId);
+
+        saveChatToDB(receiverUserId, senderUserId, message)
+    });
+
+    socket.on('disconnect', (socket) => {
+        // console.log('socket.id = '+socket.id); // this only gives undefined
+        console.log('socket connection disconnected.');
+    });
+});
+
 
 server.listen(9000, () => {
-    console.log('NodeJS server is running on port = 3000.');
-    saveChatToDB(2, 1, "NodeJS-2");
+    console.log('NodeJS server is running on port = 9000.');
+    // saveChatToDB(2, 1, "NodeJS-2");
 });
 
 function saveChatToDB(receiverUserId, senderUserId, message){

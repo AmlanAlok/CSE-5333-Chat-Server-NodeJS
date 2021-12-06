@@ -12,6 +12,7 @@ COPY package.json ./
 RUN npm install
 
 COPY . ./
+EXPOSE 9000
 
 # start app
 CMD ["node", "server.js"]

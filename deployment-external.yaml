@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  #  creationTimestamp: null
+  #  labels:
+  #    app: demo
+  name: cloud-nodejs-chat-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-nodejs-chat-server
+  #  strategy: {}
+  template:
+    metadata:
+      #      creationTimestamp: null
+      labels:
+        app: cloud-nodejs-chat-server
+    spec:
+      containers:
+        - image: amlanalok/cse-5333-chat-server
+          name: cloud-nodejs-chat-server
+          ports:
+            - containerPort: 9000
+#        resources: {}
+#status: {}
+---
+# Code to create an External Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-nodejs-chat-service
+spec:
+  ports:
+    - name: 9000-9000
+      protocol: TCP
+      port: 9000            # This is the service port
+      targetPort: 9000      # This is the port of the pod
+  selector:
+    app: cloud-nodejs-chat-server
+  type: LoadBalancer
+#  type: ClusterIP
+#  type: LoadBalancer
+#status:
+#  loadBalancer: {}

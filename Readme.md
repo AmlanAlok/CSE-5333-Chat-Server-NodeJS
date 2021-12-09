@@ -1,7 +1,11 @@
-docker build -t cse-5333-chat-server .
+# TO RUN ANYWHERE
 
-docker run -dp 9000:9000 cse-5333-chat-server
+## We have the docker image on docker hub
 
-docker tag cse-5333-chat-server amlanalok/cse-5333-chat-server
+amlanalok/cse-5333-chat-server
 
-docker push amlanalok/cse-5333-chat-server
+## Run the below command to run our docker image
+
+docker run -dp 9000:9000 amlanalok/cse-5333-chat-server
+
+## As per the application design only the React app can access this chat server
